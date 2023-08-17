@@ -1,5 +1,5 @@
 {
-  "name": "scoreboard",
+  "name": "scoreboard-mecies",
   "version": "1.0.0",
   "description": "Live Football World Cup Scoreboard",
   "main": "lib/index.js",
