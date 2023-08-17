@@ -7,21 +7,11 @@ export class LiveFootballScoreboard {
     this.matches = [];
   }
 
-  private findMatch(
-    homeTeam: string,
-    awayTeam: string
-  ): FootballMatch | undefined {
-    return this.matches.find(
-      (match) =>
-        match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
-    );
-  }
-
   getMatchesInProgress(): FootballMatch[] {
     return [...this.matches];
   }
 
-  startMatch(homeTeam: string, awayTeam: string) {
+  startMatch(homeTeam: string, awayTeam: string): void {
     const isAlreadyStarted = this.matches.some(
       (match) =>
         match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
@@ -39,7 +29,7 @@ export class LiveFootballScoreboard {
     awayTeam: string,
     homeScore: number,
     awayScore: number
-  ) {
+  ): void {
     const match = this.findMatch(homeTeam, awayTeam);
 
     if (match) {
@@ -47,22 +37,11 @@ export class LiveFootballScoreboard {
     }
   }
 
-  finishMatch(homeTeam: string, awayTeam: string) {
+  finishMatch(homeTeam: string, awayTeam: string): void {
     this.matches = this.matches.filter(
       (match) =>
         match.getHomeTeam() !== homeTeam && match.getAwayTeam() !== awayTeam
     );
-  }
-
-  private getMatchesInOrderForSummary(): FootballMatch[] {
-    return this.matches.reverse().sort((a, b) => {
-      const aTotalScore = a.getTotalScore();
-      const bTotalScore = b.getTotalScore();
-      if (aTotalScore === bTotalScore) {
-        return 0;
-      }
-      return bTotalScore - aTotalScore;
-    });
   }
 
   getSummaryOfMatchesInProgress(): string {
@@ -77,5 +56,26 @@ export class LiveFootballScoreboard {
     }
 
     return summary;
+  }
+
+  private getMatchesInOrderForSummary(): FootballMatch[] {
+    return this.matches.reverse().sort((a, b) => {
+      const aTotalScore = a.getTotalScore();
+      const bTotalScore = b.getTotalScore();
+      if (aTotalScore === bTotalScore) {
+        return 0;
+      }
+      return bTotalScore - aTotalScore;
+    });
+  }
+
+  private findMatch(
+    homeTeam: string,
+    awayTeam: string
+  ): FootballMatch | undefined {
+    return this.matches.find(
+      (match) =>
+        match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
+    );
   }
 }

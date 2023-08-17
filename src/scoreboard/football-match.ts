@@ -35,7 +35,7 @@ export class FootballMatch {
     return `${this.homeTeam} ${this.homeScore} - ${this.awayTeam} ${this.awayScore}`;
   }
 
-  updateScore(homeScore: number, awayScore: number) {
+  updateScore(homeScore: number, awayScore: number): void {
     this.homeScore = homeScore;
     this.awayScore = awayScore;
   }
