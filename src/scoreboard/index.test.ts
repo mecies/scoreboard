@@ -8,36 +8,42 @@ describe("Scoreboard", () => {
   });
 
   it("starts a match with initial score 0-0 and adds it to the scoreboard", () => {
-    scoreboard.startMatch("Mexico", "Canada");
+    const match = new FootballMatch("Mexico", "Canada");
 
-    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
+    scoreboard.startMatch(match);
+
+    const matches = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
-    expect(matches[0].getHomeScore()).toBe(0);
-    expect(matches[0].getAwayScore()).toBe(0);
+    expect(matches[0].getTotalScore()).toBe(0);
   });
 
   it("does not start a match that is already ongoing", () => {
-    scoreboard.startMatch("Mexico", "Canada");
-    scoreboard.startMatch("Mexico", "Canada");
+    const matchOne = new FootballMatch("Mexico", "Canada");
+    const matchTwo = new FootballMatch("Mexico", "Canada");
 
-    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
+    scoreboard.startMatch(matchOne);
+    scoreboard.startMatch(matchTwo);
+
+    const matches = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
-    expect(matches[0].getHomeScore()).toBe(0);
-    expect(matches[0].getAwayScore()).toBe(0);
+    expect(matches[0].getTotalScore()).toBe(0);
   });
 
   it("updates scores for multiple matches", () => {
-    scoreboard.startMatch("Spain", "Brazil");
-    scoreboard.startMatch("Germany", "France");
+    const matchOne = new FootballMatch("Mexico", "Canada");
+    const matchTwo = new FootballMatch("Germany", "France");
 
-    scoreboard.updateScore("Spain", "Brazil", 10, 2);
-    scoreboard.updateScore("Germany", "France", 2, 2);
+    scoreboard.startMatch(matchOne);
+    scoreboard.startMatch(matchTwo);
 
-    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
+    matchOne.updateScore(10, 2);
+    matchTwo.updateScore(2, 2);
+
+    const matches = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(2);
 
@@ -48,30 +54,28 @@ describe("Scoreboard", () => {
     expect(matches[1].getAwayScore()).toBe(2);
   });
 
-  it("does not update non-existent matches", () => {
-    scoreboard.startMatch("Uruguay", "Italy");
+  it("does not affect the scoreboard when you update score on a match that is not in the scoreboard", () => {
+    const match = new FootballMatch("Uruguay", "Italy");
 
-    scoreboard.updateScore("Uruguay", "Italy", 6, 6);
-    scoreboard.updateScore("Argentina", "Australia", 3, 1);
+    match.updateScore(6, 6);
 
-    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
+    const matches = scoreboard.getMatchesInProgress();
 
-    expect(matches).toHaveLength(1);
-
-    expect(matches[0].getHomeScore()).toBe(6);
-    expect(matches[0].getAwayScore()).toBe(6);
+    expect(matches).toHaveLength(0);
   });
 
   it("finishes a match and removes it from the score board", () => {
     let matches: FootballMatch[];
 
-    scoreboard.startMatch("England", "Portugal");
+    const match = new FootballMatch("England", "Portugal");
+
+    scoreboard.startMatch(match);
 
     matches = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
-    scoreboard.finishMatch("England", "Portugal");
+    scoreboard.finishMatch(match);
 
     matches = scoreboard.getMatchesInProgress();
 
@@ -81,13 +85,16 @@ describe("Scoreboard", () => {
   it("does not finish non-existent matches", () => {
     let matches: FootballMatch[];
 
-    scoreboard.startMatch("England", "Portugal");
+    const matchOne = new FootballMatch("England", "Portugal");
+    const matchTwo = new FootballMatch("Mexico", "Canada");
+
+    scoreboard.startMatch(matchOne);
 
     matches = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
-    scoreboard.finishMatch("Germany", "Uruguay");
+    scoreboard.finishMatch(matchTwo);
 
     matches = scoreboard.getMatchesInProgress();
 
@@ -95,17 +102,23 @@ describe("Scoreboard", () => {
   });
 
   it("gets the summary of all matches ordered by total score and most recently started", () => {
-    scoreboard.startMatch("Mexico", "Canada");
-    scoreboard.startMatch("Spain", "Brazil");
-    scoreboard.startMatch("Germany", "France");
-    scoreboard.startMatch("Uruguay", "Italy");
-    scoreboard.startMatch("Argentina", "Australia");
+    const matchOne = new FootballMatch("Mexico", "Canada");
+    const matchTwo = new FootballMatch("Spain", "Brazil");
+    const matchThree = new FootballMatch("Germany", "France");
+    const matchFour = new FootballMatch("Uruguay", "Italy");
+    const matchFive = new FootballMatch("Argentina", "Australia");
 
-    scoreboard.updateScore("Mexico", "Canada", 0, 5);
-    scoreboard.updateScore("Spain", "Brazil", 10, 2);
-    scoreboard.updateScore("Germany", "France", 2, 2);
-    scoreboard.updateScore("Uruguay", "Italy", 6, 6);
-    scoreboard.updateScore("Argentina", "Australia", 3, 1);
+    scoreboard.startMatch(matchOne);
+    scoreboard.startMatch(matchTwo);
+    scoreboard.startMatch(matchThree);
+    scoreboard.startMatch(matchFour);
+    scoreboard.startMatch(matchFive);
+
+    matchOne.updateScore(0, 5);
+    matchTwo.updateScore(10, 2);
+    matchThree.updateScore(2, 2);
+    matchFour.updateScore(6, 6);
+    matchFive.updateScore(3, 1);
 
     const summary = scoreboard.getSummaryOfMatchesInProgress();
     const summaryLines = summary.split("\n");

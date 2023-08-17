@@ -11,35 +11,18 @@ export class LiveFootballScoreboard {
     return [...this.matches];
   }
 
-  startMatch(homeTeam: string, awayTeam: string): void {
+  startMatch(newMatch: FootballMatch): void {
     const isAlreadyStarted = this.matches.some((match) =>
-      match.isSame(homeTeam, awayTeam)
+      match.isSame(newMatch)
     );
 
     if (isAlreadyStarted) return;
 
-    const newMatch = new FootballMatch(homeTeam, awayTeam);
-
     this.matches.push(newMatch);
   }
 
-  updateScore(
-    homeTeam: string,
-    awayTeam: string,
-    homeScore: number,
-    awayScore: number
-  ): void {
-    const match = this.findMatch(homeTeam, awayTeam);
-
-    if (match) {
-      match.updateScore(homeScore, awayScore);
-    }
-  }
-
-  finishMatch(homeTeam: string, awayTeam: string): void {
-    this.matches = this.matches.filter(
-      (match) => !match.isSame(homeTeam, awayTeam)
-    );
+  finishMatch(matchToFinish: FootballMatch): void {
+    this.matches = this.matches.filter((match) => !match.isSame(matchToFinish));
   }
 
   getSummaryOfMatchesInProgress(): string {
@@ -54,17 +37,10 @@ export class LiveFootballScoreboard {
     return this.matches.reverse().sort((a, b) => {
       const aTotalScore = a.getTotalScore();
       const bTotalScore = b.getTotalScore();
-      if (aTotalScore === bTotalScore) {
-        return 0;
-      }
+
+      if (aTotalScore === bTotalScore) return 0;
+
       return bTotalScore - aTotalScore;
     });
-  }
-
-  private findMatch(
-    homeTeam: string,
-    awayTeam: string
-  ): FootballMatch | undefined {
-    return this.matches.find((match) => match.isSame(homeTeam, awayTeam));
   }
 }

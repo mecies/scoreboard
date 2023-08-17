@@ -21,14 +21,17 @@ import { LiveFootballScoreboard } from "scoreboard-mecies";
 // Create a new scoreboard instance
 const scoreboard = new LiveFootballScoreboard();
 
+// Create a new match
+const match = new FootballMatch("Mexico", "Canada");
+
 // Start a match
-scoreboard.startMatch("Mexico", "Canada");
+scoreboard.startMatch(match);
 
 // Update match scores
-scoreboard.updateScore("Mexico", "Canada", 0, 5);
+match.updateScore(0, 5);
 
 // Finish a match (removes the match from the scoreboard)
-scoreboard.finishMatch("Mexico", "Canada");
+scoreboard.finishMatch(match);
 
 // Get ongoing matches summary
 const summary = scoreboard.getSummaryOfMatchesInProgress();

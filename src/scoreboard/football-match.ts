@@ -19,20 +19,12 @@ export class FootballMatch {
     return this.awayScore;
   }
 
-  getHomeTeam(): string {
-    return this.homeTeam;
-  }
-
-  getAwayTeam(): string {
-    return this.awayTeam;
-  }
-
   getTotalScore(): number {
-    return this.getHomeScore() + this.getAwayScore();
+    return this.homeScore + this.awayScore;
   }
 
   getMatchSummary(): string {
-    return `${this.getHomeTeam()} ${this.getHomeScore()} - ${this.getAwayTeam()} ${this.getAwayScore()}`;
+    return `${this.homeTeam} ${this.homeScore} - ${this.awayTeam} ${this.awayScore}`;
   }
 
   updateScore(homeScore: number, awayScore: number): void {
@@ -40,10 +32,7 @@ export class FootballMatch {
     this.awayScore = awayScore;
   }
 
-  isSame(otherHomeTeam: string, otherAwayTeam: string): boolean {
-    return (
-      this.getHomeTeam() === otherHomeTeam &&
-      this.getAwayTeam() === otherAwayTeam
-    );
+  isSame(other: FootballMatch): boolean {
+    return this.homeTeam === other.homeTeam && this.awayTeam === other.awayTeam;
   }
 }
