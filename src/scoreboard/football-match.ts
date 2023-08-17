@@ -32,11 +32,18 @@ export class FootballMatch {
   }
 
   getMatchSummary(): string {
-    return `${this.homeTeam} ${this.homeScore} - ${this.awayTeam} ${this.awayScore}`;
+    return `${this.getHomeTeam()} ${this.getHomeScore()} - ${this.getAwayTeam()} ${this.getAwayScore()}`;
   }
 
   updateScore(homeScore: number, awayScore: number): void {
     this.homeScore = homeScore;
     this.awayScore = awayScore;
+  }
+
+  isSame(otherHomeTeam: string, otherAwayTeam: string): boolean {
+    return (
+      this.getHomeTeam() === otherHomeTeam &&
+      this.getAwayTeam() === otherAwayTeam
+    );
   }
 }

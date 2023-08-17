@@ -12,9 +12,8 @@ export class LiveFootballScoreboard {
   }
 
   startMatch(homeTeam: string, awayTeam: string): void {
-    const isAlreadyStarted = this.matches.some(
-      (match) =>
-        match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
+    const isAlreadyStarted = this.matches.some((match) =>
+      match.isSame(homeTeam, awayTeam)
     );
 
     if (isAlreadyStarted) return;
@@ -39,8 +38,7 @@ export class LiveFootballScoreboard {
 
   finishMatch(homeTeam: string, awayTeam: string): void {
     this.matches = this.matches.filter(
-      (match) =>
-        match.getHomeTeam() !== homeTeam && match.getAwayTeam() !== awayTeam
+      (match) => !match.isSame(homeTeam, awayTeam)
     );
   }
 
@@ -67,9 +65,6 @@ export class LiveFootballScoreboard {
     homeTeam: string,
     awayTeam: string
   ): FootballMatch | undefined {
-    return this.matches.find(
-      (match) =>
-        match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
-    );
+    return this.matches.find((match) => match.isSame(homeTeam, awayTeam));
   }
 }
