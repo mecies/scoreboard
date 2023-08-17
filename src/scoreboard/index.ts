@@ -3,10 +3,17 @@ interface Match {
   awayTeam: string;
   homeScore: number;
   awayScore: number;
+  updateScore(homeScore: number, awayScore: number): void;
 }
 
 interface Scoreboard {
   startMatch(homeTeam: string, awayTeam: string): void;
+  updateScore(
+    homeTeam: string,
+    awayTeam: string,
+    homeScore: number,
+    awayScore: number
+  ): void;
   getMatchesInProgress(): Match[];
 }
 
@@ -22,6 +29,11 @@ class FootballMatch implements Match {
     this.homeScore = 0;
     this.awayScore = 0;
   }
+
+  updateScore(homeScore: number, awayScore: number) {
+    this.homeScore = homeScore;
+    this.awayScore = awayScore;
+  }
 }
 
 class LiveFootballScoreboard implements Scoreboard {
@@ -29,6 +41,15 @@ class LiveFootballScoreboard implements Scoreboard {
 
   constructor() {
     this.matches = [];
+  }
+
+  private findMatch(
+    homeTeam: string,
+    awayTeam: string
+  ): FootballMatch | undefined {
+    return this.matches.find(
+      (match) => match.homeTeam === homeTeam && match.awayTeam === awayTeam
+    );
   }
 
   getMatchesInProgress(): Match[] {
@@ -45,6 +66,19 @@ class LiveFootballScoreboard implements Scoreboard {
     const newMatch = new FootballMatch(homeTeam, awayTeam);
 
     this.matches.push(newMatch);
+  }
+
+  updateScore(
+    homeTeam: string,
+    awayTeam: string,
+    homeScore: number,
+    awayScore: number
+  ) {
+    const match = this.findMatch(homeTeam, awayTeam);
+
+    if (match) {
+      match.updateScore(homeScore, awayScore);
+    }
   }
 }
 
