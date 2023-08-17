@@ -14,8 +14,8 @@ describe("Scoreboard", () => {
 
     expect(matches).toHaveLength(1);
 
-    expect(matches[0].homeScore).toBe(0);
-    expect(matches[0].awayScore).toBe(0);
+    expect(matches[0].getHomeScore()).toBe(0);
+    expect(matches[0].getAwayScore()).toBe(0);
   });
 
   it("does not start a match that is already ongoing", () => {
@@ -26,8 +26,8 @@ describe("Scoreboard", () => {
 
     expect(matches).toHaveLength(1);
 
-    expect(matches[0].homeScore).toBe(0);
-    expect(matches[0].awayScore).toBe(0);
+    expect(matches[0].getHomeScore()).toBe(0);
+    expect(matches[0].getAwayScore()).toBe(0);
   });
 
   it("updates scores for multiple matches", () => {
@@ -41,11 +41,11 @@ describe("Scoreboard", () => {
 
     expect(matches).toHaveLength(2);
 
-    expect(matches[0].homeScore).toBe(10);
-    expect(matches[0].awayScore).toBe(2);
+    expect(matches[0].getHomeScore()).toBe(10);
+    expect(matches[0].getAwayScore()).toBe(2);
 
-    expect(matches[1].homeScore).toBe(2);
-    expect(matches[1].awayScore).toBe(2);
+    expect(matches[1].getHomeScore()).toBe(2);
+    expect(matches[1].getAwayScore()).toBe(2);
   });
 
   it("does not update non-existent matches", () => {
@@ -58,8 +58,8 @@ describe("Scoreboard", () => {
 
     expect(matches).toHaveLength(1);
 
-    expect(matches[0].homeScore).toBe(6);
-    expect(matches[0].awayScore).toBe(6);
+    expect(matches[0].getHomeScore()).toBe(6);
+    expect(matches[0].getAwayScore()).toBe(6);
   });
 
   it("finishes a match and removes it from the score board", () => {

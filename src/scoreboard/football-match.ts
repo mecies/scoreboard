@@ -1,8 +1,8 @@
 export class FootballMatch {
-  homeTeam: string;
-  awayTeam: string;
-  homeScore: number;
-  awayScore: number;
+  private homeTeam: string;
+  private awayTeam: string;
+  private homeScore: number;
+  private awayScore: number;
 
   constructor(homeTeam: string, awayTeam: string) {
     this.homeTeam = homeTeam;
@@ -11,8 +11,28 @@ export class FootballMatch {
     this.awayScore = 0;
   }
 
+  getHomeScore(): number {
+    return this.homeScore;
+  }
+
+  getAwayScore(): number {
+    return this.awayScore;
+  }
+
+  getHomeTeam(): string {
+    return this.homeTeam;
+  }
+
+  getAwayTeam(): string {
+    return this.awayTeam;
+  }
+
   getTotalScore(): number {
-    return this.homeScore + this.awayScore;
+    return this.getHomeScore() + this.getAwayScore();
+  }
+
+  getMatchSummary(): string {
+    return `${this.homeTeam} ${this.homeScore} - ${this.awayTeam} ${this.awayScore}`;
   }
 
   updateScore(homeScore: number, awayScore: number) {

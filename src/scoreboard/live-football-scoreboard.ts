@@ -1,7 +1,7 @@
 import { FootballMatch } from "./football-match";
 
 export class LiveFootballScoreboard {
-  matches: FootballMatch[];
+  private matches: FootballMatch[];
 
   constructor() {
     this.matches = [];
@@ -12,17 +12,19 @@ export class LiveFootballScoreboard {
     awayTeam: string
   ): FootballMatch | undefined {
     return this.matches.find(
-      (match) => match.homeTeam === homeTeam && match.awayTeam === awayTeam
+      (match) =>
+        match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
     );
   }
 
   getMatchesInProgress(): FootballMatch[] {
-    return this.matches;
+    return [...this.matches];
   }
 
   startMatch(homeTeam: string, awayTeam: string) {
     const isAlreadyStarted = this.matches.some(
-      (match) => match.homeTeam === homeTeam && match.awayTeam === awayTeam
+      (match) =>
+        match.getHomeTeam() === homeTeam && match.getAwayTeam() === awayTeam
     );
 
     if (isAlreadyStarted) return;
@@ -47,7 +49,8 @@ export class LiveFootballScoreboard {
 
   finishMatch(homeTeam: string, awayTeam: string) {
     this.matches = this.matches.filter(
-      (match) => match.homeTeam !== homeTeam && match.awayTeam !== awayTeam
+      (match) =>
+        match.getHomeTeam() !== homeTeam && match.getAwayTeam() !== awayTeam
     );
   }
 
@@ -69,11 +72,7 @@ export class LiveFootballScoreboard {
       summary = "There are no matches in progress";
     } else {
       summary = this.getMatchesInOrderForSummary()
-        .map((match, index) => {
-          return `${index + 1}. ${match.homeTeam} ${match.homeScore} - ${
-            match.awayTeam
-          } ${match.awayScore}`;
-        })
+        .map((match, index) => `${index + 1}. ${match.getMatchSummary()}`)
         .join("\n");
     }
 
