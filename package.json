@@ -1,6 +1,6 @@
 {
   "name": "scoreboard-mecies",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Live Football World Cup Scoreboard",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
