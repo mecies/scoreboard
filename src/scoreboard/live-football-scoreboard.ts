@@ -1,10 +1,14 @@
+import { DefaultMatchSorter } from "./default-match-sorter";
 import { FootballMatch } from "./football-match";
+import { MatchSorter } from "./match-sorter";
 
 export class LiveFootballScoreboard {
   private matches: FootballMatch[];
+  private matchSorter: MatchSorter;
 
-  constructor() {
+  constructor(sorter: MatchSorter = new DefaultMatchSorter()) {
     this.matches = [];
+    this.matchSorter = sorter;
   }
 
   getMatchesInProgress(): FootballMatch[] {
@@ -28,19 +32,13 @@ export class LiveFootballScoreboard {
   getSummaryOfMatchesInProgress(): string {
     if (this.matches.length === 0) return "There are no matches in progress";
 
-    return this.getMatchesInOrderForSummary()
-      .map((match, index) => `${index + 1}. ${match.getMatchSummary()}`)
+    return this.matchSorter
+      .sort(this.matches)
+      .map(this.printSummaryRow)
       .join("\n");
   }
 
-  private getMatchesInOrderForSummary(): FootballMatch[] {
-    return this.matches.reverse().sort((a, b) => {
-      const aTotalScore = a.getTotalScore();
-      const bTotalScore = b.getTotalScore();
-
-      if (aTotalScore === bTotalScore) return 0;
-
-      return bTotalScore - aTotalScore;
-    });
+  private printSummaryRow(match: FootballMatch, index: number): string {
+    return `${index + 1}. ${match.getMatchSummary()}`;
   }
 }

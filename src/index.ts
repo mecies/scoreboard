@@ -1,1 +1,5 @@
-export { FootballMatch, LiveFootballScoreboard } from "./scoreboard";
+export {
+  FootballMatch,
+  LiveFootballScoreboard,
+  MatchSorter,
+} from "./scoreboard";
