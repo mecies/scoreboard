@@ -73,6 +73,8 @@ describe("Scoreboard", () => {
 
     scoreboard.finishMatch("England", "Portugal");
 
+    matches = scoreboard.getMatchesInProgress();
+
     expect(matches).toHaveLength(0);
   });
 
@@ -86,6 +88,8 @@ describe("Scoreboard", () => {
     expect(matches).toHaveLength(1);
 
     scoreboard.finishMatch("Germany", "Uruguay");
+
+    matches = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
   });

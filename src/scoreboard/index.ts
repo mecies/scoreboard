@@ -15,6 +15,7 @@ interface Scoreboard {
     awayScore: number
   ): void;
   getMatchesInProgress(): Match[];
+  finishMatch(homeTeam: string, awayTeam: string): void;
 }
 
 class FootballMatch implements Match {
@@ -79,6 +80,12 @@ class LiveFootballScoreboard implements Scoreboard {
     if (match) {
       match.updateScore(homeScore, awayScore);
     }
+  }
+
+  finishMatch(homeTeam: string, awayTeam: string) {
+    this.matches = this.matches.filter(
+      (match) => match.homeTeam !== homeTeam && match.awayTeam !== awayTeam
+    );
   }
 }
 
