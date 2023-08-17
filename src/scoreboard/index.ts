@@ -4,6 +4,7 @@ interface Match {
   homeScore: number;
   awayScore: number;
   updateScore(homeScore: number, awayScore: number): void;
+  getTotalScore(): number;
 }
 
 interface Scoreboard {
@@ -16,6 +17,7 @@ interface Scoreboard {
   ): void;
   getMatchesInProgress(): Match[];
   finishMatch(homeTeam: string, awayTeam: string): void;
+  getSummaryOfMatchesInProgress(): string;
 }
 
 class FootballMatch implements Match {
@@ -29,6 +31,10 @@ class FootballMatch implements Match {
     this.awayTeam = awayTeam;
     this.homeScore = 0;
     this.awayScore = 0;
+  }
+
+  getTotalScore(): number {
+    return this.homeScore + this.awayScore;
   }
 
   updateScore(homeScore: number, awayScore: number) {
@@ -86,6 +92,35 @@ class LiveFootballScoreboard implements Scoreboard {
     this.matches = this.matches.filter(
       (match) => match.homeTeam !== homeTeam && match.awayTeam !== awayTeam
     );
+  }
+
+  private getMatchesInOrderForSummary(): Match[] {
+    return this.matches.reverse().sort((a, b) => {
+      const aTotalScore = a.getTotalScore();
+      const bTotalScore = b.getTotalScore();
+      if (aTotalScore === bTotalScore) {
+        return 0;
+      }
+      return bTotalScore - aTotalScore;
+    });
+  }
+
+  getSummaryOfMatchesInProgress(): string {
+    let summary: string;
+
+    if (this.matches.length === 0) {
+      summary = "There are no matches in progress";
+    } else {
+      summary = this.getMatchesInOrderForSummary()
+        .map((match, index) => {
+          return `${index + 1}. ${match.homeTeam} ${match.homeScore} - ${
+            match.awayTeam
+          } ${match.awayScore}`;
+        })
+        .join("\n");
+    }
+
+    return summary;
   }
 }
 

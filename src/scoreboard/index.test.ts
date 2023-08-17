@@ -108,14 +108,15 @@ describe("Scoreboard", () => {
     scoreboard.updateScore("Argentina", "Australia", 3, 1);
 
     const summary = scoreboard.getSummaryOfMatchesInProgress();
+    const summaryLines = summary.split("\n");
 
-    expect(summary).toEqual(`
-      1. Uruguay 6 - Italy 6
-      2. Spain 10 - Brazil 2
-      3. Mexico 0 - Canada 5
-      4. Argentina 3 - Australia 1
-      5. Germany 2 - France 2
-    `);
+    expect(summaryLines).toHaveLength(5);
+
+    expect(summaryLines[0]).toEqual("1. Uruguay 6 - Italy 6");
+    expect(summaryLines[1]).toEqual("2. Spain 10 - Brazil 2");
+    expect(summaryLines[2]).toEqual("3. Mexico 0 - Canada 5");
+    expect(summaryLines[3]).toEqual("4. Argentina 3 - Australia 1");
+    expect(summaryLines[4]).toEqual("5. Germany 2 - France 2");
   });
 
   it("doesn't return a summary when there are no ongoing matches", () => {
