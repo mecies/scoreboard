@@ -45,17 +45,11 @@ export class LiveFootballScoreboard {
   }
 
   getSummaryOfMatchesInProgress(): string {
-    let summary: string;
+    if (this.matches.length === 0) return "There are no matches in progress";
 
-    if (this.matches.length === 0) {
-      summary = "There are no matches in progress";
-    } else {
-      summary = this.getMatchesInOrderForSummary()
-        .map((match, index) => `${index + 1}. ${match.getMatchSummary()}`)
-        .join("\n");
-    }
-
-    return summary;
+    return this.getMatchesInOrderForSummary()
+      .map((match, index) => `${index + 1}. ${match.getMatchSummary()}`)
+      .join("\n");
   }
 
   private getMatchesInOrderForSummary(): FootballMatch[] {
