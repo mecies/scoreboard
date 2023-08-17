@@ -1,7 +1,7 @@
-import { LiveFootballScoreboard, Scoreboard, Match } from ".";
+import { LiveFootballScoreboard, FootballMatch } from ".";
 
 describe("Scoreboard", () => {
-  let scoreboard: Scoreboard;
+  let scoreboard: LiveFootballScoreboard;
 
   beforeEach(() => {
     scoreboard = new LiveFootballScoreboard();
@@ -10,7 +10,7 @@ describe("Scoreboard", () => {
   it("starts a match with initial score 0-0 and adds it to the scoreboard", () => {
     scoreboard.startMatch("Mexico", "Canada");
 
-    const matches: Match[] = scoreboard.getMatchesInProgress();
+    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
@@ -22,7 +22,7 @@ describe("Scoreboard", () => {
     scoreboard.startMatch("Mexico", "Canada");
     scoreboard.startMatch("Mexico", "Canada");
 
-    const matches: Match[] = scoreboard.getMatchesInProgress();
+    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
@@ -37,7 +37,7 @@ describe("Scoreboard", () => {
     scoreboard.updateScore("Spain", "Brazil", 10, 2);
     scoreboard.updateScore("Germany", "France", 2, 2);
 
-    const matches: Match[] = scoreboard.getMatchesInProgress();
+    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(2);
 
@@ -54,7 +54,7 @@ describe("Scoreboard", () => {
     scoreboard.updateScore("Uruguay", "Italy", 6, 6);
     scoreboard.updateScore("Argentina", "Australia", 3, 1);
 
-    const matches: Match[] = scoreboard.getMatchesInProgress();
+    const matches: FootballMatch[] = scoreboard.getMatchesInProgress();
 
     expect(matches).toHaveLength(1);
 
@@ -63,7 +63,7 @@ describe("Scoreboard", () => {
   });
 
   it("finishes a match and removes it from the score board", () => {
-    let matches: Match[];
+    let matches: FootballMatch[];
 
     scoreboard.startMatch("England", "Portugal");
 
@@ -79,7 +79,7 @@ describe("Scoreboard", () => {
   });
 
   it("does not finish non-existent matches", () => {
-    let matches: Match[];
+    let matches: FootballMatch[];
 
     scoreboard.startMatch("England", "Portugal");
 
