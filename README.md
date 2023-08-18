@@ -16,7 +16,7 @@ To install the Live Football World Cup Scoreboard library, you can use your pref
 ## Usage
 
 ```typescript
-import { LiveFootballScoreboard } from "scoreboard-mecies";
+import { LiveFootballScoreboard, FootballMatch } from "scoreboard-mecies";
 
 // Create a new scoreboard instance
 const scoreboard = new LiveFootballScoreboard();
