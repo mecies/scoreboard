@@ -4,6 +4,10 @@
   "description": "Live Football World Cup Scoreboard",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mecies/scoreboard.git"
+  },
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
